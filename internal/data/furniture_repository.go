@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -86,9 +85,10 @@ func (f FurnitureRepository) GetByID(id int64) (Furniture, error) {
 		    category c ON f.category_id = c.category_id
 		LEFT JOIN 
 			review r ON f.furniture_id = r.furniture_id
+		WHERE f.furniture_id = $1
 		GROUP BY 
 		    f.furniture_id, f.name, f.price
-		WHERE f.furniture_id = $1`
+`
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -121,12 +121,12 @@ func (f FurnitureRepository) GetByID(id int64) (Furniture, error) {
 // GetAll returns list of furniture, rating and metadata
 // from the database matching the provided parameters.
 func (f FurnitureRepository) GetAll(name, category string, price float64, filters Filters) ([]Furniture, float32, Metadata, error) {
-	query := fmt.Sprintf(`
+	query := `
 		SELECT 
-		    COUNT(*) OVER(),
+		    count(*) OVER(),
 			f.furniture_id,
 			f.name,
-			f.price
+			f.price,
 			c.name,
 			COALESCE(AVG(r.rating), 0) AS rating
 		FROM
@@ -135,13 +135,14 @@ func (f FurnitureRepository) GetAll(name, category string, price float64, filter
 			category c ON f.category_id = c.category_id
 		LEFT JOIN 
 			review r ON f.furniture_id = r.furniture_id
-		GROUP BY 
-		    f.furniture_id, f.name, f.price
 		WHERE (to_tsvector('simple', f.name) @@ plainto_tsquery('simple', $1) OR $1 = '')
-		AND c.name = $2 OR $2 = ''
-		AND f.price > $3
-		ORDER BY %s %s, f.furniture_id ASC
-		LIMIT $4 OFFSET $5`, filters.sortColumn(), filters.sortDirection())
+		AND (c.name = $2 OR $2 = '')
+		AND (f.price > $3 OR f.price = $3)
+		GROUP BY 
+		    f.furniture_id, f.name, f.price, c.name
+		ORDER BY f.furniture_id ASC
+		LIMIT $4 OFFSET $5
+`
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
