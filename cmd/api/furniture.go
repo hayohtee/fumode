@@ -93,3 +93,83 @@ func (app *application) createFurnitureHandler(w http.ResponseWriter, r *http.Re
 		app.serverErrorResponse(w, r, err)
 	}
 }
+
+func (app *application) getAllFurnitureHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Name     string
+		Category string
+		Price    float64
+		Rating   float32
+		data.Filters
+	}
+
+	v := validator.New()
+	qs := r.URL.Query()
+
+	input.Name = app.readString(qs, "name", "")
+	input.Category = app.readString(qs, "category", "")
+	input.Page = app.readInt(qs, "page", 1, v)
+	input.PageSize = app.readInt(qs, "page_size", 20, v)
+	input.Sort = app.readString(qs, "sort", "name")
+	input.SortSafeList = []string{"name", "price", "-name", "-price"}
+
+	priceInput, err := app.readDecimal(qs, "price", 0)
+	if err != nil {
+		v.AddError("price", "must be a valid decimal number")
+	}
+	if priceInput < 0 {
+		v.AddError("price", "must be a positive number")
+	}
+	input.Price = priceInput
+
+	ratingInput, err := app.readDecimal(qs, "rating", 0)
+	if err != nil {
+		v.AddError("rating", "must be a valid decimal number")
+	}
+	if ratingInput < 0 || ratingInput > 5 {
+		v.AddError("rating", "must be between 0 and 5")
+	}
+	input.Rating = float32(ratingInput)
+
+	if data.ValidateFilters(v, input.Filters); !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	furniture, rating, metadata, err := app.repositories.Furniture.GetAll(
+		input.Name,
+		input.Category,
+		input.Price,
+		input.Filters,
+	)
+
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
+	items := make([]furnitureItem, len(furniture))
+
+	for i, f := range furniture {
+		items[i] = furnitureItem{
+			ID:       f.FurnitureID,
+			Name:     f.Name,
+			Price:    f.Price,
+			Rating:   rating,
+			Category: f.Category,
+		}
+	}
+
+	err = app.writeJSON(w, http.StatusOK, envelope{"items": items, "metadata": metadata}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+}
+
+type furnitureItem struct {
+	ID       int64   `json:"id"`
+	Name     string  `json:"name"`
+	Category string  `json:"category"`
+	Price    float64 `json:"price"`
+	Rating   float32 `json:"rating"`
+}
