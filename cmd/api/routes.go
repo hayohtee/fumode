@@ -12,6 +12,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("POST /v1/admins/login", app.loginUserHandler)
 
 	mux.HandleFunc("POST /v1/furniture", app.createFurnitureHandler)
+	mux.HandleFunc("GET /v1/furniture", app.getAllFurnitureHandler)
 
 	return mux
 }
