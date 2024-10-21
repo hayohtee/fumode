@@ -165,6 +165,17 @@ func (app *application) readString(qs url.Values, key string, defaultValue strin
 	return s
 }
 
+// readDecimal is a helper method that returns a float64 from the query string,
+// or the provided default value if no matching key could be found.
+func (app *application) readDecimal(qs url.Values, key string, defaultValue float64) (float64, error) {
+	s := qs.Get(key)
+	if s == "" {
+		return defaultValue, nil
+	}
+
+	return strconv.ParseFloat(s, 64)
+}
+
 // readCSV is a helper method that reads a string value from query string and
 // then splits it into a slice on the comma character. If no matching key could
 // be found, it returns the provided default value.
