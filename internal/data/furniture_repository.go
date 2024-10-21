@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -76,11 +77,17 @@ func (f FurnitureRepository) GetByID(id int64) (Furniture, error) {
 			f.stock, 
 			f.banner_url, 
 			f.image_urls, 
-			c.name AS category, 
+			c.name AS category,
+			COALESCE(AVG(r.rating), 0) AS rating,
 			f.version
 		FROM 
 		    furniture f
-		JOIN category c ON f.category_id = c.category_id
+		INNER JOIN 
+		    category c ON f.category_id = c.category_id
+		LEFT JOIN 
+			review r ON f.furniture_id = r.furniture_id
+		GROUP BY 
+		    f.furniture_id, f.name, f.price
 		WHERE f.furniture_id = $1`
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -96,6 +103,7 @@ func (f FurnitureRepository) GetByID(id int64) (Furniture, error) {
 		&furniture.BannerURL,
 		&furniture.ImageURLs,
 		&furniture.Category,
+		&furniture.Rating,
 		&furniture.Version,
 	)
 
@@ -108,4 +116,66 @@ func (f FurnitureRepository) GetByID(id int64) (Furniture, error) {
 		}
 	}
 	return furniture, nil
+}
+
+// GetAll returns list of furniture, rating and metadata
+// from the database matching the provided parameters.
+func (f FurnitureRepository) GetAll(name, category string, price float64, filters Filters) ([]Furniture, float32, Metadata, error) {
+	query := fmt.Sprintf(`
+		SELECT 
+		    COUNT(*) OVER(),
+			f.furniture_id,
+			f.name,
+			f.price
+			c.name,
+			COALESCE(AVG(r.rating), 0) AS rating
+		FROM
+		    furniture f
+		INNER JOIN 
+			category c ON f.category_id = c.category_id
+		LEFT JOIN 
+			review r ON f.furniture_id = r.furniture_id
+		GROUP BY 
+		    f.furniture_id, f.name, f.price
+		WHERE (to_tsvector('simple', f.name) @@ plainto_tsquery('simple', $1) OR $1 = '')
+		AND c.name = $2 OR $2 = ''
+		AND f.price > $3
+		ORDER BY %s %s, f.furniture_id ASC
+		LIMIT $4 OFFSET $5`, filters.sortColumn(), filters.sortDirection())
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	args := []any{name, category, price, filters.limit(), filters.offset()}
+	rows, err := f.DB.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, 0, Metadata{}, err
+	}
+	defer rows.Close()
+
+	var furniture []Furniture
+	var totalRecords = 0
+	var rating float32 = 0.0
+
+	for rows.Next() {
+		var f Furniture
+		err := rows.Scan(
+			&totalRecords,
+			&f.FurnitureID,
+			&f.Name,
+			&f.Price,
+			&f.Category,
+			&rating,
+		)
+		if err != nil {
+			return nil, 0, Metadata{}, err
+		}
+		furniture = append(furniture, f)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, 0, Metadata{}, err
+	}
+
+	metadata := calculateMetadata(totalRecords, filters.Page, filters.PageSize)
+	return furniture, rating, metadata, nil
 }
