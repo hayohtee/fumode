@@ -160,7 +160,7 @@ func (app *application) getAllFurnitureHandler(w http.ResponseWriter, r *http.Re
 		}
 	}
 
-	err = app.writeJSON(w, http.StatusOK, envelope{"items": items, "metadata": metadata}, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"metadata": metadata, "items": items}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
