@@ -492,6 +492,44 @@ paths:
                     type: string
                     description: The error message
                     example: the server encountered a problem and could not process your request
+    get:
+      tags:
+        - Furniture
+      summary: Get a list of furniture
+      parameters:
+        - in: query
+          name: category
+          description: Filter by category
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: rating
+          description: Filter by rating
+          schema:
+            type: number
+            minimum: 1.0
+          required: false
+        - in: query
+          name: price
+          description: Filter by minimum price
+          schema:
+            type: number
+          required: false
+        - in: query
+          name: name
+          description: Search furniture by name
+          schema:
+            type: string
+          required: false
+
+      responses:
+        200:
+          description: A list of furniture was returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllFurnitureResponse'
 
 components:
   securitySchemes:
@@ -522,33 +560,64 @@ components:
           type: string
           description: The role of the customer
 
-    Furniture:
+    GetAllFurnitureResponse:
       type: object
       properties:
-        furniture_id:
-          type: integer
-          minimum: 1
-          description: Unique identifier for the furniture
-        name:
-          type: string
-          description: The name of the furniture
-        category:
-          type: string
-          description: The category to which the furniture belong
-        price:
-          type: number
-          description: The price of the furniture
-        details:
-          type: string
-          description: The details of the furniture
-        stock:
-          type: integer
-          description: The number of units available
-        images:
+        metadata:
+          type: object
+          description: Metadata for the furniture list (current_page, page_size...)
+          properties:
+            current_page:
+              type: integer
+              minimum: 1
+              description: The current page for the furniture list
+              example: 1
+            page_size:
+              type: integer
+              minimum: 25
+              description: The maximum size of the returned furniture list
+            first_page:
+              type: integer
+              minimum: 1
+              description: The first page of the furniture list
+              example: 1
+            last_page:
+              type: integer
+              minimum: 1
+              description: The last page of the furniture list
+              example: 4
+            total_records:
+              type: integer
+              minimum: 0
+              description: The total number of furniture that can be fetch
+              example: 150
+        items:
           type: array
-          description: A list of image urls of the furniture
+          description: A list of furniture
           items:
-            type: string
+            type: object
+            properties:
+              id:
+                type: integer
+                minimum: 1
+                description: The ID of the furniture
+                example: 1
+              name:
+                type: string
+                description: The name of the furniture
+                example: Sofa Set
+              category:
+                type: string
+                description: The category of the furniture
+                example: Office
+              price:
+                type: number
+                description: The price of the furniture
+                example: 48
+              rating:
+                type: number
+                description: The rating for the furniture (1.0 - 5.0)
+                example: 4.4
 
     CartItem:
       type: object
@@ -577,22 +646,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CartItem'
-
-    Wishlist:
-      type: object
-      properties:
-        wishlist_id:
-          type: integer
-          minimum: 1
-          description: Unique identifier for the wish list
-        user_id:
-          type: integer
-          minimum: 1
-          description: Unique identifier for the user
-        furniture_items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Furniture'
 
     Review:
       type: object
