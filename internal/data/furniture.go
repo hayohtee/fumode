@@ -11,5 +11,6 @@ type Furniture struct {
 	BannerURL   string
 	ImageURLs   []string
 	Category    string
+	Rating      float32
 	Version     int
 }
