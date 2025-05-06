@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Fumode REST API
-  description: Fumode REST API
+  description: The REST API for Fumode
   version: 1.0.0
 servers:
   - url: 'http://localhost:4000/v1'
@@ -21,15 +21,96 @@ paths:
             type: string
             description: The filter for furniture name
             example: cushion
-  
+          required: false
+        - in: query
+          name: page
+          schema:
+            type: int
+            description: The page number
+            example: 1
+            minimum: 1
+          required: false
+        - in: query
+          name: page_size
+          schema:
+            type: int
+            description: The page_size
+            example: 10
+            minimum: 10
+          required: false
+        - in: query
+          name: category
+          schema:
+            type: string
+            description: The filter for category
+          required: false
+        - in: header
+          description: The User session cookie retrieved after completing self-service (required for browser only)
+          name: Cookie
+          schema:
+            type: string
+            description: The session cookie
+            example:  ory_kratos_session=<cookie>
+        - in: header
+          name: Authorization
+          description: The User session token retrieved after completing self-service flow (required for non-browser only)
+          schema:
+            type: string
+            format: bearer
+            description: The session token
+            example: Bearer <token>
+      responses:
+        200:
+          description: Successfully retrieved a list of furniture
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  metadata:
+                    $ref: "#/components/schemas/PaginationMetadata"
+                  items:
+                    type: array
+                    description: A list of furniture
+                    items:
+                      $ref: "#/components/schemas/Furniture"
+
 components:
   schemas:
+    PaginationMetadata:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          minimum: 1
+          description: The current page number.
+          example: 1
+        total_pages:
+          type: integer
+          description: The total number of pages.
+          example: 10
+          minimum: 1
+        page_size:
+          type: integer
+          description: The number of items per page.
+          example: 20
+          minimum: 1
+        total_items:
+          type: integer
+          description: The total number of items across all pages.
+          example: 195
+          minimum: 0
+      required:
+        - current_page
+        - total_items
+        - page_size
+        - total_items
     Furniture:
       type: object
       properties:
         id:
           type: integer
-          min: 1
+          minimum: 1
           description: The ID of the furniture
           example: 1
         name:
