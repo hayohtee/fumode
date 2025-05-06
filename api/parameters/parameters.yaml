@@ -1,0 +1,55 @@
+CookieHeader:
+  name: Cookie
+  in: header
+  description: The User session cookie retrieved after completing self-service (required for browser only)
+  schema:
+    type: string
+    description: The session cookie
+    example: ory_kratos_session=<cookie>
+
+AuthorizationHeader:
+  name: Authorization
+  in: header
+  description: The User session token retrieved after completing self-service flow (required for non-browser only)
+  schema:
+    type: string
+    format: bearer
+    description: The session token
+    example: Bearer <token>
+
+NameQuery:
+  in: query
+  name: name
+  schema:
+    type: string
+    description: The filter for furniture name
+    example: cushion
+  required: false
+
+PageQuery:
+  in: query
+  name: page
+  schema:
+    type: integer
+    description: The page number
+    example: 1
+    minimum: 1
+  required: false
+
+PageSizeQuery:
+  in: query
+  name: page_size
+  schema:
+    type: integer
+    description: The page_size
+    example: 10
+    minimum: 10
+  required: false
+
+CategoryQuery:
+  in: query
+  name: category
+  schema:
+    type: string
+    description: The filter for category
+  required: false
