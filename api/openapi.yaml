@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Fumode REST API
+  description: Fumode REST API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:4000/v1'
+paths:
+  /furniture:
+    get:
+      tags:
+        - Furniture
+        - Admin
+        - User
+      description: Retrieve a list of all furniture that matches the filter
+      summary: List all furniture
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+            description: The filter for furniture name
+            example: cushion
+  
+components:
+  schemas:
+    Furniture:
+      type: object
+      properties:
+        id:
+          type: integer
+          min: 1
+          description: The ID of the furniture
+          example: 1
+        name:
+          type: string
+          description: The name of the furniture
+          example: Modern Sofa
+        description:
+          type: string
+          description: The description of the furniture
+          example: Elegant 3-seater
+        price:
+          type: number
+          format: float
+          description: The price of the furniture
+          example: 123.99
+        stock:
+          type: integer
+          description: The number of stock available
+          min: 1
+          example: 12
+        main_image_url:
+          type: string
+          format: uri
+          description: The url for the main image of the furniture
+          example: https://example.com/images/chair_main.jpg
+        additional_image_urls:
+          type: array
+          description: Additional image urls for the furniture
+          items:
+            type: string
+          examples:
+            - https://example.com/images/chair_side.jpg
+            - https://example.com/images/chair_back.jpg
+            - https://example.com/images/chair_detail.jpg
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              min: 1
+              description: The category id
+              example: 1
+            name:
+              type: string
+              description: The name of the category
+              example: Sofas
+    FurnitureListing:
+      type: object
+      properties:
+        id:
+          type: integer
+          min: 1
+          description: The ID of the furniture
+          example: 1
+        name:
+          type: string
+          description: The name of the furniture
+          example: Dining Table
+        price:
+          type: number
+          description: The price of the furniture
+          format: float
+          example: 153.45
+        main_image_url:
+          type: string
+          format: uri
+          description: The main image of the furniture
+          example: https://example.com/images/chair_main.jpg
