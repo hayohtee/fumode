@@ -34,6 +34,88 @@ Unauthorized:
         required:
           - error
 
+InvalidID:
+  description: Returned when invalid ID was supplied.
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          error:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A specific message explaining the error.
+                example: Invalid furniture ID format
+
+FurnitureValidation:
+  description: Returned when some of the fields of the furniture is invalid.
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          error:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The validation error message.
+                example: must be provided
+              description:
+                type: string
+                description: The validation error message.
+                example: must be provided
+              price:
+                type: string
+                description: The validation error message.
+                example: must be provided
+              image_url:
+                type: string
+                description: The validation error message.
+                example: must be provided
+              stock:
+                type: string
+                description: The validation error message.
+                example: must be provided
+              category_id:
+                type: string
+                description: The validation error message.
+                example: must be provided
+
+
+InternalServerError:
+  description: Internal server error
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          error:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A specific message explaining the error.
+                example: An unexpected error occurred on the server.
+
+
+NotFound:
+  description: Returned when the requested resource cannot be found.
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          error:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A specific message explaining the error.
+                example: The requested resource cannot be found
+
 Forbidden:
   description: Returned when the authenticated user does not have the necessary permissions to access this resource.
   content:
@@ -48,8 +130,3 @@ Forbidden:
                 type: string
                 description: A specific message explaining why the request was unauthorized.
                 example: You do not have permission to perform this action
-            required:
-              - message
-        required:
-          - error
-
