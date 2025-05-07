@@ -15,62 +15,37 @@ paths:
       description: Retrieve a list of all furniture that matches the filter
       summary: List all furniture
       parameters:
-        - in: query
-          name: name
-          schema:
-            type: string
-            description: The filter for furniture name
-            example: cushion
-          required: false
-        - in: query
-          name: page
-          schema:
-            type: int
-            description: The page number
-            example: 1
-            minimum: 1
-          required: false
-        - in: query
-          name: page_size
-          schema:
-            type: int
-            description: The page_size
-            example: 10
-            minimum: 10
-          required: false
-        - in: query
-          name: category
-          schema:
-            type: string
-            description: The filter for category
-          required: false
-        - in: header
-          description: The User session cookie retrieved after completing self-service (required for browser only)
-          name: Cookie
-          schema:
-            type: string
-            description: The session cookie
-            example:  ory_kratos_session=<cookie>
-        - in: header
-          name: Authorization
-          description: The User session token retrieved after completing self-service flow (required for non-browser only)
-          schema:
-            type: string
-            format: bearer
-            description: The session token
-            example: Bearer <token>
+        - $ref: "#/components/parameters/NameQuery"
+        - $ref: "#/components/parameters/PageQuery"
+        - $ref: "#/components/parameters/PageSizeQuery"
+        - $ref: "#/components/parameters/CategoryQuery"
+        - $ref: "#/components/parameters/CookieHeader"
+        - $ref: "#/components/parameters/AuthorizationHeader"
       responses:
         200:
-          description: Successfully retrieved a list of furniture
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  metadata:
-                    $ref: "./schemas/pagination.yaml/#/PaginationMetadata"
-                  items:
-                    type: array
-                    description: A list of furniture
-                    items:
-                      $ref: "./schemas/furniture_listing.yaml/#/FurnitureListing"
+          $ref: "#/components/responses/ListFurnitureSuccess"
+
+components:
+  schemas:
+    Furniture:
+      $ref: "./schemas/furniture.yaml/#/Furniture"
+    FurnitureListing:
+      $ref: "./schemas/furniture_listing.yaml/#/FurnitureListing"
+    PaginationMetadata:
+      $ref: "./schemas/pagination.yaml/#/PaginationMetadata"
+  responses:
+    ListFurnitureSuccess:
+      $ref: "./responses/furniture.yaml/#/ListFurnitureSuccess"
+  parameters:
+    CookieHeader:
+      $ref: "parameters/parameters.yaml/#/CookieHeader"
+    AuthorizationHeader:
+      $ref: "./parameters/parameters.yaml/#/AuthorizationHeader"
+    NameQuery:
+      $ref: "./parameters/parameters.yaml/#/NameQuery"
+    PageQuery:
+      $ref: "./parameters/parameters.yaml/#/PageQuery"
+    PageSizeQuery:
+      $ref: "./parameters/parameters.yaml/#/PageSizeQuery"
+    CategoryQuery:
+      $ref: "./parameters/parameters.yaml/#/CategoryQuery"
