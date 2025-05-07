@@ -13,3 +13,7 @@ tags:
 paths:
   /furniture:
     $ref: "./paths/furniture.yaml"
+  /furniture/{id}:
+   $ref: "./paths/furniture_item.yaml"
+
+
