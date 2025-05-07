@@ -1,22 +1,40 @@
-GetAllFurniture:
-  get:
-    tags:
-      - Furniture
-      - Admin
-      - User
-    description: Retrieve a list of all furniture that matches the filter
-    summary: List all furniture
-    parameters:
-      - $ref: "../components.yaml/#/components/parameters/NameQuery"
-      - $ref: "../components.yaml/#/components/parameters/PageQuery"
-      - $ref: "../components.yaml/#/components/parameters/PageSizeQuery"
-      - $ref: "../components.yaml/#/components/parameters/CategoryQuery"
-      - $ref: "../components.yaml/#/components/parameters/CookieHeader"
-      - $ref: "../components.yaml/#/components/parameters/AuthorizationHeader"
-    responses:
-      200:
-        $ref: "../components.yaml/#/components/responses/ListFurnitureSuccess"
-      401:
-        $ref: "../components.yaml/#/components/responses/Unauthorized"
-      403:
-        $ref: "../components.yaml/#/components/responses/Forbidden"
+get:
+  tags:
+    - Admin
+    - User
+  description: Retrieve a list of all furniture that matches the filter
+  summary: List all furniture
+  parameters:
+    - $ref: "../parameters/parameters.yaml/#/NameQuery"
+    - $ref: "../parameters/parameters.yaml/#/PageQuery"
+    - $ref: "../parameters/parameters.yaml/#/PageSizeQuery"
+    - $ref: "../parameters/parameters.yaml/#/CategoryQuery"
+    - $ref: "../parameters/parameters.yaml/#/CookieHeader"
+    - $ref: "../parameters/parameters.yaml/#/AuthorizationHeader"
+  responses:
+    200:
+      $ref: "../responses/furniture.yaml/#/ListFurnitureSuccess"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
+
+post:
+  tags:
+    - Admin
+  summary: Create a new furniture
+  parameters:
+    - $ref: "../parameters/parameters.yaml/#/CookieHeader"
+    - $ref: "../parameters/parameters.yaml/#/AuthorizationHeader"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/create_furniture.yaml/#/CreateFurniture"
+  responses:
+    201:
+      $ref: "../responses/furniture.yaml/#/FurnitureCreated"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
