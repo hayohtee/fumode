@@ -38,3 +38,5 @@ post:
       $ref: "../responses/errors.yaml/#/Unauthorized"
     403:
       $ref: "../responses/errors.yaml/#/Forbidden"
+    400:
+      $ref: "../responses/errors.yaml/#/FurnitureValidation"
