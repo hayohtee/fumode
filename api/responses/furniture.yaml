@@ -1,0 +1,14 @@
+ListFurnitureSuccess:
+  description: Successfully retrieved a list of furniture
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          metadata:
+            $ref: "../schemas/pagination.yaml/#/PaginationMetadata"
+          items:
+            type: array
+            description: A list of furniture
+            items:
+              $ref: "../schemas/furniture_listing.yaml/#/FurnitureListing"
