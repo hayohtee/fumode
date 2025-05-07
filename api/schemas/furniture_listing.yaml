@@ -20,3 +20,8 @@ FurnitureListing:
       format: uri
       description: The main image of the furniture
       example: https://example.com/images/chair_main.jpg
+  required:
+    - id
+    - name
+    - price
+    - image_url
