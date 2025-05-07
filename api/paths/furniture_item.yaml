@@ -1,0 +1,23 @@
+get:
+  summary: Get details of a specific furniture item by ID
+  description: Retrieve comprehensive information about a furniture item using its unique identifier.
+  tags:
+    - User
+    - Admin
+  parameters:
+    - $ref: "../parameters/parameters.yaml/#/FurnitureID"
+    - $ref: "../parameters/parameters.yaml/#/CookieHeader"
+    - $ref: "../parameters/parameters.yaml/#/AuthorizationHeader"
+  responses:
+    200:
+      description: Successful retrieval of the furniture item.
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/furniture.yaml/#/Furniture"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    404:
+      $ref: "../responses/errors.yaml/#/NotFound"
+    400:
+      $ref: "../responses/errors.yaml/#/InvalidID"
