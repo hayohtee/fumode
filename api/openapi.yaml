@@ -5,7 +5,11 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:4000/v1'
+tags:
+  - name: User
+    description: Operations accessible to regular users.
+  - name: Admin
+    description: Operations restricted to administrative users.
 paths:
   /furniture:
-    $ref: "./paths/furniture.yaml/#/GetAllFurniture"
-
+    $ref: "./paths/furniture.yaml"
