@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.1
 info:
   title: Fumode REST API
   description: The REST API for Fumode
@@ -7,45 +7,5 @@ servers:
   - url: 'http://localhost:4000/v1'
 paths:
   /furniture:
-    get:
-      tags:
-        - Furniture
-        - Admin
-        - User
-      description: Retrieve a list of all furniture that matches the filter
-      summary: List all furniture
-      parameters:
-        - $ref: "#/components/parameters/NameQuery"
-        - $ref: "#/components/parameters/PageQuery"
-        - $ref: "#/components/parameters/PageSizeQuery"
-        - $ref: "#/components/parameters/CategoryQuery"
-        - $ref: "#/components/parameters/CookieHeader"
-        - $ref: "#/components/parameters/AuthorizationHeader"
-      responses:
-        200:
-          $ref: "#/components/responses/ListFurnitureSuccess"
+    $ref: "./paths/furniture.yaml/#/GetAllFurniture"
 
-components:
-  schemas:
-    Furniture:
-      $ref: "./schemas/furniture.yaml/#/Furniture"
-    FurnitureListing:
-      $ref: "./schemas/furniture_listing.yaml/#/FurnitureListing"
-    PaginationMetadata:
-      $ref: "./schemas/pagination.yaml/#/PaginationMetadata"
-  responses:
-    ListFurnitureSuccess:
-      $ref: "./responses/furniture.yaml/#/ListFurnitureSuccess"
-  parameters:
-    CookieHeader:
-      $ref: "parameters/parameters.yaml/#/CookieHeader"
-    AuthorizationHeader:
-      $ref: "./parameters/parameters.yaml/#/AuthorizationHeader"
-    NameQuery:
-      $ref: "./parameters/parameters.yaml/#/NameQuery"
-    PageQuery:
-      $ref: "./parameters/parameters.yaml/#/PageQuery"
-    PageSizeQuery:
-      $ref: "./parameters/parameters.yaml/#/PageSizeQuery"
-    CategoryQuery:
-      $ref: "./parameters/parameters.yaml/#/CategoryQuery"
