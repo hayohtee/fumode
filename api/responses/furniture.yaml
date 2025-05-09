@@ -6,7 +6,7 @@ ListFurnitureSuccess:
         type: object
         properties:
           metadata:
-            $ref: "../schemas/pagination.yaml/#/PaginationMetadata"
+            $ref: "../schemas/pagination_metadata.yaml/#/PaginationMetadata"
           items:
             type: array
             description: A list of furniture
