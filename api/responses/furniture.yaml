@@ -1,0 +1,32 @@
+ListFurnitureSuccess:
+  description: Successfully retrieved a list of furniture
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          metadata:
+            $ref: "../schemas/pagination_metadata.yaml/#/PaginationMetadata"
+          items:
+            type: array
+            description: A list of furniture
+            items:
+              $ref: "../schemas/furniture_listing.yaml/#/FurnitureListing"
+
+FurnitureCreated:
+  description: Returned when the furniture is created successfully.
+  headers:
+    Location:
+      schema:
+        type: string
+      description: The location to retrieve the created furniture.
+      example: /furniture/1
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Success message.
+            example: Furniture created successfully

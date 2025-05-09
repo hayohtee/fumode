@@ -1,0 +1,30 @@
+PaginationMetadata:
+  type: object
+  required:
+    - current_page
+    - total_items
+    - page_size
+    - total_items
+  properties:
+    current_page:
+      type: integer
+      minimum: 1
+      description: The current page number.
+      example: 1
+    total_pages:
+      type: integer
+      description: The total number of pages.
+      example: 10
+      minimum: 1
+    page_size:
+      type: integer
+      description: The number of items per page.
+      example: 20
+      minimum: 1
+    total_items:
+      type: integer
+      description: The total number of items across all pages.
+      example: 195
+      minimum: 0
+
+

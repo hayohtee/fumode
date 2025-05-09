@@ -1,0 +1,27 @@
+FurnitureListing:
+  type: object
+  required:
+    - id
+    - name
+    - price
+    - image_url
+  properties:
+    id:
+      type: integer
+      minimum: 1
+      description: The ID of the furniture
+      example: 1
+    name:
+      type: string
+      description: The name of the furniture
+      example: Dining Table
+    price:
+      type: number
+      description: The price of the furniture
+      format: float
+      example: 153.45
+    image_url:
+      type: string
+      format: uri
+      description: The main image of the furniture
+      example: https://example.com/images/chair_main.jpg
