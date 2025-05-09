@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: Fumode REST API
   description: The REST API for Fumode
@@ -15,5 +15,3 @@ paths:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
    $ref: "./paths/furniture_item.yaml"
-
-
