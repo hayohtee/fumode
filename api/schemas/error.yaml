@@ -1,0 +1,42 @@
+Error:
+  type: object
+  properties:
+    error:
+      type: object
+      description: Details about the error.
+      properties:
+        message:
+          type: string
+          description: Human-readable explanation of the error
+          example: Invalid or expired access token
+  required:
+    - error
+    - message
+
+ErrorDetail:
+  type: object
+  description: Additional details of the error.
+  required:
+    - field
+    - message
+  properties:
+    field:
+      type: string
+      description: The name of the field that caused the validation error.
+      example: email
+    message:
+      type: string
+      description: Description of what went wrong with the specific field
+      example: Email is required
+
+ErrorWithDetails:
+  allOf:
+    - $ref: "#/Error"
+    - type: object
+      properties:
+        errors:
+          type: array
+          description: A list of field-specific validation errors
+          items:
+            $ref: "#/ErrorDetail"
+
