@@ -7,9 +7,10 @@ CookieHeader:
     description: The session cookie
     example: ory_kratos_session=<cookie>
 
-FurnitureID:
+PathID:
   name: id
   in: path
+  required: true
   description: The unique identifier for the furniture
   schema:
     type: integer
