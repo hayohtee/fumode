@@ -1,132 +1,55 @@
+BadRequest:
+  description: Bad Request
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/Error"
+
 Unauthorized:
-  description: Returned when the access token provided in the Cookie | Authorization header is invalid, expired or missing.
+  description: Unauthorized
   content:
     application/json:
       schema:
-        type: object
-        properties:
-          error:
-            type: object
-            description: Details about the error.
-            properties:
-              message:
-                type: string
-                description: A human-readable message describing the error.
-                example: Invalid or expired access token
-              details:
-                type: object
-                description: Additional details of the error.
-                properties:
-                  field:
-                    type: string
-                    description: The name of the field of the request header that caused the error
-                    example: Authorization
-                  issue:
-                    type: string
-                    description: A specific description of the issue with the field.
-                    example: Missing or malformed Bearer token in the request header
-                required:
-                  - field
-                  - issue
-            required:
-              - message
-              - details
-        required:
-          - error
-
-InvalidID:
-  description: Returned when invalid ID was supplied.
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          error:
-            type: object
-            properties:
-              message:
-                type: string
-                description: A specific message explaining the error.
-                example: Invalid furniture ID format
-
-FurnitureValidation:
-  description: Returned when some of the fields of the furniture is invalid.
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          error:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The validation error message.
-                example: must be provided
-              description:
-                type: string
-                description: The validation error message.
-                example: must be provided
-              price:
-                type: string
-                description: The validation error message.
-                example: must be provided
-              image_url:
-                type: string
-                description: The validation error message.
-                example: must be provided
-              stock:
-                type: string
-                description: The validation error message.
-                example: must be provided
-              category_id:
-                type: string
-                description: The validation error message.
-                example: must be provided
-
-
-InternalServerError:
-  description: Internal server error
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          error:
-            type: object
-            properties:
-              message:
-                type: string
-                description: A specific message explaining the error.
-                example: An unexpected error occurred on the server.
-
-
-NotFound:
-  description: Returned when the requested resource cannot be found.
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          error:
-            type: object
-            properties:
-              message:
-                type: string
-                description: A specific message explaining the error.
-                example: The requested resource cannot be found
+        $ref: "../schemas/error.yaml/#/Error"
 
 Forbidden:
-  description: Returned when the authenticated user does not have the necessary permissions to access this resource.
+  description: Forbidden
   content:
     application/json:
       schema:
-        type: object
-        properties:
-          error:
-            type: object
-            properties:
-              message:
-                type: string
-                description: A specific message explaining why the request was unauthorized.
-                example: You do not have permission to perform this action
+        $ref: "../schemas/error.yaml/#/Error"
+
+NotFound:
+  description: Not Found
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/Error"
+
+Conflict:
+  description: Conflict
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/Error"
+
+UnprocessableEntity:
+  description: Unprocessable Entity
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/ErrorWithDetails"
+
+InternalServerError:
+  description: Internal Server Error
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/Error"
+
+ServiceUnavailable:
+  description: Service Unavailable
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/error.yaml/#/Error"
