@@ -1,5 +1,10 @@
 PaginationMetadata:
   type: object
+  required:
+    - current_page
+    - total_items
+    - page_size
+    - total_items
   properties:
     current_page:
       type: integer
@@ -21,9 +26,5 @@ PaginationMetadata:
       description: The total number of items across all pages.
       example: 195
       minimum: 0
-  required:
-    - current_page
-    - total_items
-    - page_size
-    - total_items
+
 
