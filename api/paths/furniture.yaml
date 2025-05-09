@@ -4,28 +4,28 @@ get:
     - User
   description: Retrieve a list of all furniture that matches the filter
   summary: List all furniture
+  operationId: listFurnitureHandler
   parameters:
-    - $ref: "../parameters/parameters.yaml/#/NameQuery"
-    - $ref: "../parameters/parameters.yaml/#/PageQuery"
-    - $ref: "../parameters/parameters.yaml/#/PageSizeQuery"
-    - $ref: "../parameters/parameters.yaml/#/CategoryQuery"
-    - $ref: "../parameters/parameters.yaml/#/CookieHeader"
-    - $ref: "../parameters/parameters.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/NameQuery"
+    - $ref: "../parameters/index.yaml/#/PageQuery"
+    - $ref: "../parameters/index.yaml/#/PageSizeQuery"
+    - $ref: "../parameters/index.yaml/#/CategoryQuery"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       $ref: "../responses/furniture.yaml/#/ListFurnitureSuccess"
     401:
       $ref: "../responses/errors.yaml/#/Unauthorized"
-    403:
-      $ref: "../responses/errors.yaml/#/Forbidden"
 
 post:
   tags:
     - Admin
   summary: Create a new furniture
+  operationId: createFurnitureHandler
   parameters:
-    - $ref: "../parameters/parameters.yaml/#/CookieHeader"
-    - $ref: "../parameters/parameters.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   requestBody:
     content:
       application/json:
@@ -38,5 +38,5 @@ post:
       $ref: "../responses/errors.yaml/#/Unauthorized"
     403:
       $ref: "../responses/errors.yaml/#/Forbidden"
-    400:
-      $ref: "../responses/errors.yaml/#/FurnitureValidation"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"
