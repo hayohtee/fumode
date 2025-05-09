@@ -1,5 +1,13 @@
 CreateFurniture:
   type: object
+  required:
+    - name
+    - description
+    - price
+    - stock
+    - category_id
+    - image_url
+    - additional_image_urls
   properties:
     name:
       type: string
@@ -35,11 +43,3 @@ CreateFurniture:
       items:
         type: string
         example: "https://s3.amazonaws.com/fumode/sofa1.jpg"
-  required:
-    - name
-    - description
-    - price
-    - stock
-    - category_id
-    - image_url
-    - additional_image_urls
