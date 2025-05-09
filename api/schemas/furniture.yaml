@@ -1,5 +1,13 @@
 Furniture:
   type: object
+  required:
+    - id
+    - name
+    - description
+    - price
+    - stock
+    - image_url
+    - additional_image_urls
   properties:
     id:
       type: integer
@@ -50,12 +58,3 @@ Furniture:
           type: string
           description: The name of the category
           example: Sofas
-
-  required:
-    - id
-    - name
-    - description
-    - price
-    - stock
-    - image_url
-    - additional_image_urls
