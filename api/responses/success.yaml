@@ -1,0 +1,6 @@
+StatusOK:
+  description: Success
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/success.yaml/#/Success"
