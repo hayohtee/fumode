@@ -1,0 +1,8 @@
+Success:
+  type: object
+  required:
+    - message
+  properties:
+    message:
+      type: string
+      description: Human-readable success message
