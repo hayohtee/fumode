@@ -21,6 +21,8 @@ post:
       $ref: "../responses/errors.yaml/#/Unauthorized"
     400:
       $ref: "../responses/errors.yaml/#/BadRequest"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"
 
 get:
   summary: Retrieve a list of furniture in the cart for the User.
