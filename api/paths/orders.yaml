@@ -1,0 +1,26 @@
+post:
+  summary: Place an order
+  tags:
+    - User
+  operationId: placeOrderHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/order.yaml/#/OrderInput"
+  responses:
+    201:
+      description: Order successfully placed
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/order.yaml/#/OrderDetail"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"

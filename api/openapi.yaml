@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Fumode REST API
-  description: The REST API for Fumode
+  description: API specification for Fumode app
   version: 1.0.0
 servers:
   - url: 'http://localhost:4000/v1'
@@ -16,4 +16,6 @@ paths:
   /furniture/{id}:
    $ref: "./paths/furniture_item.yaml"
   /users/{id}/cart:
-    $ref: "./paths/carts.yaml"
+    $ref: "./paths/cart.yaml"
+  /orders:
+    $ref: "./paths/orders.yaml"
