@@ -21,7 +21,7 @@ UserID:
   name: id
   in: path
   required: true
-  description: The unique identifier for the user
+  description: Ory Kratos user identity ID of the customer
   schema:
     type: string
     format: uuid
