@@ -17,6 +17,15 @@ PathID:
     minimum: 1
     example: 1
 
+UserID:
+  name: id
+  in: path
+  required: true
+  description: Ory Kratos user identity ID of the customer
+  schema:
+    type: string
+    format: uuid
+
 AuthorizationHeader:
   name: Authorization
   in: header

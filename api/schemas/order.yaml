@@ -1,0 +1,66 @@
+OrderInput:
+  type: object
+  required:
+    - shipping_address_id
+    - items
+    - identity_id
+  properties:
+    shipping_address_id:
+      type: integer
+      description: ID of the shipping address for the order
+      example: 1
+    identity_id:
+      type: string
+      description: Ory Kratos user identity ID of the customer
+      format: uuid
+      example: "kratos-user-123"
+    items:
+      type: array
+      description: List of furniture items in the order.
+      items:
+        $ref: "./cart.yaml/#/CartInput"
+
+OrderDetail:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the order
+      example: 1
+    identity_id:
+      type: string
+      description: Ory Kratos user identity ID of the customer
+      format: uuid
+      example: "kratos-user-123"
+    shipping_address_id:
+      type: integer
+      description: ID of the address where the order is to be delivered
+      example: 1
+    status:
+      type: string
+      description: Current status of the order
+      example: "pending"
+    total_amount:
+      type: number
+      format: float
+      description: Total amount charged for the order
+      example: 499.98
+    payment_status:
+      type: string
+      description: Status of the payment (e.g., paid, pending, failed)
+      example: "paid"
+    created_at:
+      type: string
+      format: date-time
+      description: Timestamp when the order was placed
+      example: "2025-05-10T14:00:00Z"
+    updated_at:
+      type: string
+      format: date-time
+      description: Timestamp of the last update to the order
+      example: "2025-05-10T15:00:00Z"
+    items:
+      type: array
+      description: List of items in the order
+      items:
+        $ref: "./cart.yaml/#/CartInput"

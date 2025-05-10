@@ -1,0 +1,36 @@
+CartDetail:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: The unique identifier for the cart.
+      example: 1
+    furniture:
+      type: object
+      allOf:
+        - $ref: "../schemas/furniture_listing.yaml/#/FurnitureListing"
+    quantity:
+      type: integer
+      description: The quantity of the furniture in the cart.
+      example: 1
+
+CartInput:
+  type: object
+  required:
+    - furniture_id
+    - quantity
+    - price
+  properties:
+    furniture_id:
+      type: integer
+      minimum: 1
+      description: The unique identifier for the furniture
+      example: 12
+    quantity:
+      type: integer
+      minimum: 1
+      description: Number of units for the furniture item
+    price:
+      type: number
+      format: float
+      description: Price per unit of the furniture item
