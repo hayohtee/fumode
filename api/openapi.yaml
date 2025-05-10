@@ -17,4 +17,3 @@ paths:
    $ref: "./paths/furniture_item.yaml"
   /users/{id}/cart:
     $ref: "./paths/carts.yaml"
-

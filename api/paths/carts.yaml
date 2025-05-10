@@ -11,6 +11,9 @@ post:
       application/json:
         schema:
           type: object
+          required:
+            - furniture_id
+            - quantity
           properties:
             furniture_id:
               type: integer
@@ -30,3 +33,34 @@ post:
       $ref: "../responses/errors.yaml/#/Unauthorized"
     400:
       $ref: "../responses/errors.yaml/#/BadRequest"
+
+get:
+  summary: Retrieve a list of furniture in the cart for the User.
+  tags:
+    - User
+  parameters:
+    - $ref: "../parameters/index.yaml/#/UserID"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  responses:
+    200:
+      description: Returned a list of furniture in the cart
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - items
+            properties:
+              items:
+                type: array
+                description: A list of furniture in the cart
+                items:
+                  $ref: "../schemas/cart.yaml/#/CartItem"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+
