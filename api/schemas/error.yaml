@@ -8,7 +8,6 @@ Error:
         message:
           type: string
           description: Human-readable explanation of the error
-          example: Invalid or expired access token
   required:
     - error
     - message
