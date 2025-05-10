@@ -11,14 +11,31 @@ get:
     - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
-      description: Successful retrieval of the furniture item.
-      content:
-        application/json:
-          schema:
-            $ref: "../schemas/furniture.yaml/#/Furniture"
+      $ref: "../responses/success.yaml/#/StatusOK"
     500:
       $ref: "../responses/errors.yaml/#/InternalServerError"
     404:
       $ref: "../responses/errors.yaml/#/NotFound"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
     400:
       $ref: "../responses/errors.yaml/#/BadRequest"
+
+delete:
+  summary: Delete a specific furniture by ID
+  operationId: deleteFurniture
+  tags:
+    - Admin
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  responses:
+    200:
+      $ref: "../responses/success.yaml/#/StatusOK"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
