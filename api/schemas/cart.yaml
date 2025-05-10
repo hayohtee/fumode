@@ -1,4 +1,4 @@
-CartItem:
+CartDetail:
   type: object
   properties:
     id:
@@ -13,3 +13,24 @@ CartItem:
       type: integer
       description: The quantity of the furniture in the cart.
       example: 1
+
+CartInput:
+  type: object
+  required:
+    - furniture_id
+    - quantity
+    - price
+  properties:
+    furniture_id:
+      type: integer
+      minimum: 1
+      description: The unique identifier for the furniture
+      example: 12
+    quantity:
+      type: integer
+      minimum: 1
+      description: The quantity of the furniture to add to the cart
+    price:
+      type: number
+      format: float
+      description: The price of the furniture
