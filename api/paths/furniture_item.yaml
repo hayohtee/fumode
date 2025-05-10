@@ -1,6 +1,5 @@
 get:
   summary: Get details of a specific furniture item by ID
-  description: Retrieve comprehensive information about a furniture item using its unique identifier.
   operationId: getFurnitureHandler
   tags:
     - User
@@ -37,5 +36,34 @@ delete:
       $ref: "../responses/errors.yaml/#/BadRequest"
     401:
       $ref: "../responses/errors.yaml/#/Unauthorized"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
+
+patch:
+  summary: Update a specific furniture item by ID.
+  operationId: updateFurnitureHandler
+  tags:
+    - Admin
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/furniture.yaml/#/UpdateFurniture"
+  responses:
+    200:
+      $ref: "../responses/success.yaml/#/StatusOK"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    404:
+      $ref: "../responses/errors.yaml/#/NotFound"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
     403:
       $ref: "../responses/errors.yaml/#/Forbidden"
