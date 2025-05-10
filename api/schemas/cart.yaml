@@ -29,8 +29,8 @@ CartInput:
     quantity:
       type: integer
       minimum: 1
-      description: The quantity of the furniture to add to the cart
+      description: Number of units for the furniture item
     price:
       type: number
       format: float
-      description: The price of the furniture
+      description: Price per unit of the furniture item
