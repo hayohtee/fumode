@@ -1,0 +1,64 @@
+PaymentInput:
+  type: object
+  required:
+    - payment_method
+    - amount
+  properties:
+    payment_method:
+      type: string
+      description: Payment method used (e.g., card, bank_transfer, wallet)
+      example: "card"
+    amount:
+      type: number
+      format: float
+      description: Amount being paid
+      example: 499.99
+    reference:
+      type: string
+      description: External payment provider transaction reference
+      example: "txn_abcdef123456"
+
+PaymentDetail:
+  type: object
+  required:
+    - id
+    - order_id
+    - payment_method
+    - amount
+    - reference
+    - status
+    - paid_at
+  properties:
+    id:
+      type: number
+      description: Unique payment record ID
+      example: 1
+      minimum: 10
+    order_id:
+      type: integer
+      description: ID of the order the payment is linked to
+      example: 12
+      minimum: 1
+    payment_method:
+      type: string
+      description: Method used to make the payment
+      example: "card"
+    amount:
+      type: number
+      format: float
+      description: Total amount paid
+      example: 499.99
+    reference:
+      type: string
+      description: External transaction reference
+      example: "txn_abcdef123456"
+    status:
+      type: string
+      description: Status of the payment (e.g., success, failed)
+      example: "success"
+    paid_at:
+      type: string
+      format: date-time
+      description: Timestamp when payment was recorded
+      example: "2025-05-13T12:45:00Z"
+
