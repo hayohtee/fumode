@@ -1,0 +1,30 @@
+post:
+  summary: Make a payment for an order
+  operationId: orderPaymentHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  tags:
+    - User
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/payment.yaml/#/PaymentInput"
+  responses:
+    200:
+      description: Payment processed successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/payment.yaml/#/PaymentDetail"
+    404:
+      $ref: "../responses/errors.yaml/#/NotFound"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
