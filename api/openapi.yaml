@@ -16,6 +16,10 @@ paths:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
     $ref: "./paths/furniture_item.yaml"
+  /reviews:
+    $ref: "./paths/reviews.yaml"
+  /reviews/{id}:
+    $ref: "./paths/review.yaml"
   /users/{identity_id}/cart:
     $ref: "./paths/cart.yaml"
   /users/{identity_id}/orders:

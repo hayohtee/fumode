@@ -1,0 +1,28 @@
+post:
+  summary: Submit a review for a specific furniture item
+  tags:
+    - User
+  operationId: createReviewHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/review.yaml/#/ReviewInput"
+  responses:
+    201:
+      description: Review successfully submitted
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/review.yaml/#/ReviewDetail"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
