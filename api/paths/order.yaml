@@ -20,3 +20,5 @@ get:
       $ref: "../responses/errors.yaml/#/InternalServerError"
     401:
       $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
