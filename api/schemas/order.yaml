@@ -64,3 +64,38 @@ OrderDetail:
       description: List of items in the order
       items:
         $ref: "./cart.yaml/#/CartInput"
+
+OrderList:
+  type: object
+  properties:
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Unique ID of the order
+            example: 1
+          status:
+            type: string
+            description: Current status of the order
+            example: "pending"
+          total_amount:
+            type: number
+            format: float
+            description: Total amount charged for the order
+            example: 499.98
+          payment_status:
+            type: string
+            description: Status of the payment (e.g., paid, pending, failed)
+            example: "paid"
+          shipping_address_id:
+            type: integer
+            description: ID of the address where the order is to be delivered
+            example: 1
+          created_at:
+            type: string
+            format: date-time
+            description: Timestamp when the order was placed
+            example: "2025-05-10T14:00:00Z"
