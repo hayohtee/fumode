@@ -5,6 +5,7 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:4000/v1'
+  - url: "https://api.fumode.com/v1"
 tags:
   - name: User
     description: Operations accessible to regular users.
@@ -14,8 +15,19 @@ paths:
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
-   $ref: "./paths/furniture_item.yaml"
-  /users/{id}/cart:
+    $ref: "./paths/furniture_item.yaml"
+  /reviews:
+    $ref: "./paths/reviews.yaml"
+  /reviews/{id}:
+    $ref: "./paths/review.yaml"
+  /users/{identity_id}/cart:
     $ref: "./paths/cart.yaml"
+  /users/{identity_id}/orders:
+    $ref: "./paths/user_orders.yaml"
   /orders:
     $ref: "./paths/orders.yaml"
+  /orders/{id}:
+    $ref: "./paths/order.yaml"
+  /orders/{id}/payment:
+    $ref: "./paths/payment.yaml"
+

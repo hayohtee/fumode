@@ -1,0 +1,24 @@
+get:
+  summary: Get details of a specific order
+  tags:
+    - User
+  operationId: getOrderDetailHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  responses:
+    200:
+      description: Successfully retrieved the order details
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/order.yaml/#/OrderDetail"
+    404:
+      $ref: "../responses/errors.yaml/#/NotFound"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"

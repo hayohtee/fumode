@@ -1,0 +1,68 @@
+patch:
+  summary: Update an existing review for a furniture item
+  tags:
+    - User
+  operationId: updateReviewHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            rating:
+              type: integer
+              minimum: 1
+              maximum: 5
+              description: Rating given by the user (1 to 5 stars)
+              example: 4
+            comment:
+              type: string
+              description: Written feedback from the user
+              example: "The build quality is excellent and very comfortable."
+            identity_id:
+              type: string
+              description: Ory Kratos identity ID of the reviewer
+              example: "kratos-user-001"
+  responses:
+    200:
+      description: Review updated successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/review.yaml/#/ReviewDetail"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    404:
+      $ref: "../responses/errors.yaml/#/NotFound"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
+
+delete:
+  summary: Delete a review for a furniture item
+  tags:
+    - User
+  operationId: deleteReviewHandler
+  parameters:
+    - $ref: "../parameters/index.yaml/#/PathID"
+    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  responses:
+    200:
+      $ref: "../responses/success.yaml/#/StatusOK"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"
