@@ -1,0 +1,58 @@
+ReviewInput:
+  type: object
+  required:
+    - rating
+    - comment
+    - furniture_id
+  properties:
+    rating:
+      type: integer
+      minimum: 1
+      maximum: 5
+      description: Rating given by the user (1 to 5 stars)
+      example: 4
+    furniture_id:
+      type: integer
+      description: ID of the furniture item reviewed
+      example: 7
+      minimum: 1
+    comment:
+      type: string
+      description: Written feedback from the user
+      example: "The build quality is excellent and very comfortable."
+    identity_id:
+      type: string
+      description: Ory Kratos identity ID of the reviewer
+      example: "kratos-user-001"
+
+ReviewDetail:
+  type: object
+  properties:
+    id:
+      type: integer
+      description: Unique identifier for the review
+      example: 10
+      minimum: 1
+    furniture_id:
+      type: integer
+      description: ID of the furniture item reviewed
+      example: 7
+      minimum: 1
+    identity_id:
+      type: string
+      format: uuid
+      description: Ory Kratos identity ID of the user who submitted the review
+      example: "kratos-user-001"
+    rating:
+      type: integer
+      description: Rating score
+      example: 5
+    comment:
+      type: string
+      description: User's comment about the furniture
+      example: "Stylish and durable!"
+    created_at:
+      type: string
+      format: date-time
+      description: When the review was submitted
+      example: "2025-05-13T10:00:00Z"
