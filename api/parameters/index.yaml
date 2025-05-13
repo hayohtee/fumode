@@ -11,14 +11,14 @@ PathID:
   name: id
   in: path
   required: true
-  description: The unique identifier for the furniture
+  description: The unique identifier for the resource
   schema:
     type: integer
     minimum: 1
     example: 1
 
-UserID:
-  name: id
+IdentityID:
+  name: identity_id
   in: path
   required: true
   description: Ory Kratos user identity ID of the customer
@@ -41,7 +41,7 @@ NameQuery:
   name: name
   schema:
     type: string
-    description: The filter for furniture name
+    description: The filter for the resource name
     example: cushion
   required: false
 
