@@ -17,6 +17,8 @@ paths:
    $ref: "./paths/furniture_item.yaml"
   /users/{identity_id}/cart:
     $ref: "./paths/cart.yaml"
+  /users/{identity_id}/orders:
+    $ref: "./paths/user_orders.yaml"
   /orders:
     $ref: "./paths/orders.yaml"
   /orders/{id}:
