@@ -3,9 +3,9 @@ post:
   tags:
     - User
   operationId: placeOrderHandler
-  parameters:
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   requestBody:
     content:
       application/json:

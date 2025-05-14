@@ -4,10 +4,11 @@ get:
   tags:
     - User
     - Admin
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       $ref: "../responses/success.yaml/#/StatusOK"
@@ -25,10 +26,11 @@ delete:
   operationId: deleteFurniture
   tags:
     - Admin
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       $ref: "../responses/success.yaml/#/StatusOK"
@@ -42,12 +44,13 @@ delete:
 patch:
   summary: Update a specific furniture item by ID.
   operationId: updateFurnitureHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   tags:
     - Admin
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   requestBody:
     required: true
     content:

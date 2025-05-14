@@ -5,8 +5,9 @@ get:
   operationId: getOrderDetailHandler
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   responses:
     200:
       description: Successfully retrieved the order details

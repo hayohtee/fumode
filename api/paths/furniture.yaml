@@ -5,13 +5,14 @@ get:
   description: Retrieve a list of all furniture that matches the filter
   summary: List all furniture
   operationId: listFurnitureHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/NameQuery"
     - $ref: "../parameters/index.yaml/#/PageQuery"
     - $ref: "../parameters/index.yaml/#/PageSizeQuery"
     - $ref: "../parameters/index.yaml/#/CategoryQuery"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       $ref: "../responses/furniture.yaml/#/ListFurnitureSuccess"
@@ -25,9 +26,9 @@ post:
     - Admin
   summary: Create a new furniture
   operationId: createFurnitureHandler
-  parameters:
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   requestBody:
     content:
       application/json:

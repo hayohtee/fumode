@@ -3,10 +3,11 @@ patch:
   tags:
     - User
   operationId: updateReviewHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
   requestBody:
     required: true
     content:
@@ -48,13 +49,14 @@ patch:
 
 delete:
   summary: Delete a review for a furniture item
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   tags:
     - User
   operationId: deleteReviewHandler
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
   responses:
     200:
       $ref: "../responses/success.yaml/#/StatusOK"
