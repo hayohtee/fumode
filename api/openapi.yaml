@@ -8,9 +8,11 @@ servers:
   - url: "https://api.fumode.com/v1"
 tags:
   - name: User
-    description: Operations accessible to regular users.
+    description: Operations accessible to regular users
   - name: Admin
-    description: Operations restricted to administrative users.
+    description: Operations restricted to administrative users
+  - name: Auth
+    description: Endpoints related to authentication
 paths:
   /auth/register/user:
     $ref: "./paths/user_registration.yaml"
