@@ -2,6 +2,7 @@ post:
   tags:
     - Admin
   summary: Log in as an admin
+  operationId: loginAdminHandler
   requestBody:
     required: true
     content:

@@ -2,6 +2,7 @@ post:
   tags:
     - User
   summary: Register a new user
+  operationId: registerUserHandler
   requestBody:
     required: true
     content:

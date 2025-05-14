@@ -1,5 +1,6 @@
 post:
   summary: Register a new admin
+  operationId: registerAdminHandler
   tags:
     - Admin
   requestBody:

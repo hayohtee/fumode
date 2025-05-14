@@ -1,5 +1,6 @@
 post:
   summary: Log in as a user
+  operationId: loginUserHandler
   tags:
     - User
   requestBody:
