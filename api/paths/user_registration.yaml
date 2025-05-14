@@ -1,6 +1,7 @@
 post:
   tags:
     - User
+    - Auth
   summary: Register a new user
   operationId: registerUserHandler
   requestBody:

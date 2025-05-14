@@ -1,6 +1,7 @@
 post:
   tags:
     - Admin
+    - Auth
   summary: Log in as an admin
   operationId: loginAdminHandler
   requestBody:

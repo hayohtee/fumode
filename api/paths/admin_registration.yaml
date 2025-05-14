@@ -3,6 +3,7 @@ post:
   operationId: registerAdminHandler
   tags:
     - Admin
+    - Auth
   requestBody:
     required: true
     content:

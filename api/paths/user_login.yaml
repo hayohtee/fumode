@@ -3,6 +3,7 @@ post:
   operationId: loginUserHandler
   tags:
     - User
+    - Auth
   requestBody:
     required: true
     content:
