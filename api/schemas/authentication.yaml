@@ -1,0 +1,71 @@
+RegisterRequest:
+  type: object
+  required:
+    - name
+    - email
+    - password
+  properties:
+    name:
+      type: string
+      description: The full name of the user
+      example: John Doe
+    email:
+      type: string
+      format: email
+      description: Email address of the user
+      example: johndoe@example.com
+    password:
+      type: string
+      format: password
+      description: Password of the user
+
+LoginRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      description: Email address of the user
+      example: johndoe@example.com
+    password:
+      type: string
+      format: password
+      description: Password of the user
+
+
+SessionResponse:
+  type: object
+  description: Session object returned on successful login
+  properties:
+    id:
+      type: string
+      description: Unique session ID
+    active:
+      type: boolean
+      description: Indicates if the session is active
+    expires_at:
+      type: string
+      format: date-time
+      description: Time when the session will expire
+    identity:
+      type: object
+      description: The identity associated with this session
+      properties:
+        id:
+          type: string
+          description: Unique ID of the identity
+        traits:
+          type: object
+          description: User-defined traits of the identity
+          properties:
+            name:
+              type: string
+              description: The full name of the user
+              example: John Doe
+            email:
+              type: string
+              format: email
+              description: Email address of the user
+              example: johndoe@example.com
