@@ -12,6 +12,14 @@ tags:
   - name: Admin
     description: Operations restricted to administrative users.
 paths:
+  /auth/register/user:
+    $ref: "./paths/user_registration.yaml"
+  /auth/registration/admin:
+    $ref: "./paths/admin_registration.yaml"
+  /auth/login/user:
+    $ref: "./paths/user_login.yaml"
+  /auth/login/admin:
+    $ref: "./paths/admin_login.yaml"
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
