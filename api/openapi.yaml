@@ -22,6 +22,8 @@ paths:
     $ref: "./paths/user_login.yaml"
   /auth/login/admin:
     $ref: "./paths/admin_login.yaml"
+  /auth/whoami:
+    $ref: "./paths/whoami.yaml"
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
