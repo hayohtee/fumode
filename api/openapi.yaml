@@ -3,9 +3,11 @@ info:
   title: Fumode REST API
   description: API specification for Fumode app
   version: 1.0.0
+
 servers:
   - url: 'http://localhost:4000/v1'
   - url: "https://api.fumode.com/v1"
+
 tags:
   - name: User
     description: Operations accessible to regular users
@@ -13,6 +15,7 @@ tags:
     description: Operations restricted to administrative users
   - name: Auth
     description: Endpoints related to authentication
+
 paths:
   /auth/register/user:
     $ref: "./paths/user_registration.yaml"
@@ -24,6 +27,10 @@ paths:
     $ref: "./paths/admin_login.yaml"
   /auth/whoami:
     $ref: "./paths/whoami.yaml"
+  /auth/logout:
+    $ref: "./paths/auth_logout.yaml"
+  /auth/session/refresh:
+    $ref: "./paths/session_refresh.yaml"
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
