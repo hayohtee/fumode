@@ -1,10 +1,11 @@
 post:
   summary: Make a payment for an order
   operationId: orderPaymentHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
   tags:
     - User
   requestBody:

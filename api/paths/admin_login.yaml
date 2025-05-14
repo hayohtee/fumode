@@ -1,0 +1,29 @@
+post:
+  tags:
+    - Admin
+    - Auth
+  summary: Log in as an admin
+  operationId: loginAdminHandler
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/authentication.yaml/#/LoginRequest"
+  responses:
+    200:
+      description: Admin logged in successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/authentication.yaml/#/SessionResponse"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    403:
+      $ref: "../responses/errors.yaml/#/Forbidden"

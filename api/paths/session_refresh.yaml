@@ -1,0 +1,23 @@
+post:
+  summary: Refresh the current session
+  description: Extend the current session's expiry if the session is still valid
+  tags:
+    - Auth
+    - User
+    - Admin
+  operationId: refreshSessionHandler
+  security:
+    - SessionToken: [ ]
+  responses:
+    200:
+      description: Session refreshed successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/authentication.yaml/#/SessionResponse"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"

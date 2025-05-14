@@ -1,0 +1,25 @@
+post:
+  summary: Register a new admin
+  operationId: registerAdminHandler
+  tags:
+    - Admin
+    - Auth
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/authentication.yaml/#/RegisterRequest"
+  responses:
+    201:
+      description: Admin registered successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/authentication.yaml/#/SessionResponse"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    422:
+      $ref: "../responses/errors.yaml/#/UnprocessableEntity"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"

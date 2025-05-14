@@ -3,10 +3,11 @@ post:
   tags:
     - User
   operationId: addToCartHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/IdentityID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   requestBody:
     content:
       application/json:
@@ -29,10 +30,11 @@ get:
   operationId: getCartHandler
   tags:
     - User
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/IdentityID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       description: Returned a list of furniture in the cart

@@ -1,12 +1,13 @@
 get:
   summary: List all orders associated with a specific user
   operationId: listOrdersForUserHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   tags:
     - User
   parameters:
     - $ref: "../parameters/index.yaml/#/IdentityID"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
   responses:
     200:
       description: Successfully retrieved a list of orders for a user

@@ -3,10 +3,11 @@ post:
   tags:
     - User
   operationId: createReviewHandler
+  security:
+    - SessionCookie: [ ]
+    - BearerAuth: [ ]
   parameters:
     - $ref: "../parameters/index.yaml/#/PathID"
-    - $ref: "../parameters/index.yaml/#/AuthorizationHeader"
-    - $ref: "../parameters/index.yaml/#/CookieHeader"
   requestBody:
     required: true
     content:

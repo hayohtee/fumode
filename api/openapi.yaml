@@ -3,15 +3,34 @@ info:
   title: Fumode REST API
   description: API specification for Fumode app
   version: 1.0.0
+
 servers:
   - url: 'http://localhost:4000/v1'
   - url: "https://api.fumode.com/v1"
+
 tags:
   - name: User
-    description: Operations accessible to regular users.
+    description: Operations accessible to regular users
   - name: Admin
-    description: Operations restricted to administrative users.
+    description: Operations restricted to administrative users
+  - name: Auth
+    description: Endpoints related to authentication
+
 paths:
+  /auth/register/user:
+    $ref: "./paths/user_registration.yaml"
+  /auth/registration/admin:
+    $ref: "./paths/admin_registration.yaml"
+  /auth/login/user:
+    $ref: "./paths/user_login.yaml"
+  /auth/login/admin:
+    $ref: "./paths/admin_login.yaml"
+  /auth/whoami:
+    $ref: "./paths/whoami.yaml"
+  /auth/logout:
+    $ref: "./paths/auth_logout.yaml"
+  /auth/session/refresh:
+    $ref: "./paths/session_refresh.yaml"
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:
@@ -31,3 +50,21 @@ paths:
   /orders/{id}/payment:
     $ref: "./paths/payment.yaml"
 
+components:
+  securitySchemes:
+    SessionToken:
+      type: apiKey
+      in: header
+      name: X-Session-Token
+      description: |
+        Pass the session token here. Typically retrieved after registration/login.
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: ory_kratos_session
+      description: Session cookie set by Ory Kratos for logged-in users (required for browser app).
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token (JWT) returned by Ory Kratos during login (required for non-browser).

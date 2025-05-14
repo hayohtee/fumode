@@ -1,0 +1,19 @@
+post:
+  summary: Logout the current user
+  description: Terminates the current session and removes authentication cookies or tokens
+  operationId: logOutHandler
+  tags:
+    - Auth
+    - User
+    - Admin
+  security:
+    - SessionToken: [ ]
+  responses:
+    200:
+      $ref: "../responses/success.yaml/#/StatusOK"
+    400:
+      $ref: "../responses/errors.yaml/#/BadRequest"
+    500:
+      $ref: "../responses/errors.yaml/#/InternalServerError"
+    401:
+      $ref: "../responses/errors.yaml/#/Unauthorized"
