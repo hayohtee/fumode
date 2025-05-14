@@ -1,5 +1,6 @@
 get:
   summary: Get the currently authenticated user's session
+  operationId: whoAmIHandler
   tags:
     - Auth
     - User
