@@ -39,3 +39,21 @@ paths:
   /orders/{id}/payment:
     $ref: "./paths/payment.yaml"
 
+components:
+  securitySchemes:
+    SessionToken:
+      type: apiKey
+      in: header
+      name: X-Session-Token
+      description: |
+        Pass the session token here. Typically retrieved after registration/login.
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: ory_kratos_session
+      description: Session cookie set by Ory Kratos for logged-in users (required for browser app).
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token (JWT) returned by Ory Kratos during login (required for non-browser).
