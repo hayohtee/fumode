@@ -137,8 +137,6 @@ paths:
       security:
         - SessionCookie: []
         - BearerAuth: []
-      parameters:
-        - $ref: '#/components/parameters/PathID'
       requestBody:
         required: true
         content:
@@ -647,7 +645,7 @@ components:
           description: Additional image urls for the furniture
           items:
             type: string
-          examples:
+          example:
             - https://example.com/images/chair_side.jpg
             - https://example.com/images/chair_back.jpg
             - https://example.com/images/chair_detail.jpg
