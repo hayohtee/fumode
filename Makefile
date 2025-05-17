@@ -1,7 +1,7 @@
 .PHONY: generate-server
 generate-server:
 	@echo "generating server from OpenAPI specification"
-	@go tool oapi-codegen --config cfg-api.yaml ./api/fumode/openapi.yaml
+	@go tool oapi-codegen --config cfg-api.yaml ./api/fumode_bundled_openapi.yaml
 
 .PHONY: bundle-openapi
 bundle-openapi:
