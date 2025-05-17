@@ -13,24 +13,8 @@ tags:
     description: Operations accessible to regular users
   - name: Admin
     description: Operations restricted to administrative users
-  - name: Auth
-    description: Endpoints related to authentication
 
 paths:
-  /auth/register/user:
-    $ref: "./paths/user_registration.yaml"
-  /auth/registration/admin:
-    $ref: "./paths/admin_registration.yaml"
-  /auth/login/user:
-    $ref: "./paths/user_login.yaml"
-  /auth/login/admin:
-    $ref: "./paths/admin_login.yaml"
-  /auth/whoami:
-    $ref: "./paths/whoami.yaml"
-  /auth/logout:
-    $ref: "./paths/auth_logout.yaml"
-  /auth/session/refresh:
-    $ref: "./paths/session_refresh.yaml"
   /furniture:
     $ref: "./paths/furniture.yaml"
   /furniture/{id}:

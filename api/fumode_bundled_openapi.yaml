@@ -1,0 +1,990 @@
+openapi: 3.0.3
+info:
+  title: Fumode REST API
+  description: API specification for Fumode app
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000/v1
+  - url: https://api.fumode.com/v1
+tags:
+  - name: User
+    description: Operations accessible to regular users
+  - name: Admin
+    description: Operations restricted to administrative users
+paths:
+  /furniture:
+    get:
+      tags:
+        - Admin
+        - User
+      description: Retrieve a list of all furniture that matches the filter
+      summary: List all furniture
+      operationId: listFurnitureHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/NameQuery'
+        - $ref: '#/components/parameters/PageQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/CategoryQuery'
+      responses:
+        '200':
+          $ref: '#/components/responses/ListFurnitureSuccess'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Admin
+      summary: Create a new furniture
+      operationId: createFurnitureHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFurniture'
+      responses:
+        '201':
+          $ref: '#/components/responses/FurnitureCreated'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /furniture/{id}:
+    get:
+      summary: Get details of a specific furniture item by ID
+      operationId: getFurnitureHandler
+      tags:
+        - User
+        - Admin
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOK'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a specific furniture by ID
+      operationId: deleteFurniture
+      tags:
+        - Admin
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOK'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    patch:
+      summary: Update a specific furniture item by ID.
+      operationId: updateFurnitureHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      tags:
+        - Admin
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFurniture'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOK'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /reviews:
+    post:
+      summary: Submit a review for a specific furniture item
+      tags:
+        - User
+      operationId: createReviewHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '201':
+          description: Review successfully submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /reviews/{id}:
+    patch:
+      summary: Update an existing review for a furniture item
+      tags:
+        - User
+      operationId: updateReviewHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  description: Rating given by the user (1 to 5 stars)
+                  example: 4
+                comment:
+                  type: string
+                  description: Written feedback from the user
+                  example: The build quality is excellent and very comfortable.
+                identity_id:
+                  type: string
+                  description: Ory Kratos identity ID of the reviewer
+                  example: kratos-user-001
+      responses:
+        '200':
+          description: Review updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a review for a furniture item
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      tags:
+        - User
+      operationId: deleteReviewHandler
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOK'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/{identity_id}/cart:
+    post:
+      summary: Add a furniture to cart
+      tags:
+        - User
+      operationId: addToCartHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdentityID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartInput'
+      responses:
+        '200':
+          $ref: '#/components/responses/StatusOK'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      summary: Retrieve a list of furniture in the cart for the User.
+      operationId: getCartHandler
+      tags:
+        - User
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/IdentityID'
+      responses:
+        '200':
+          description: Returned a list of furniture in the cart
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    description: A list of furniture in the cart
+                    items:
+                      $ref: '#/components/schemas/CartDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/{identity_id}/orders:
+    get:
+      summary: List all orders associated with a specific user
+      operationId: listOrdersForUserHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      tags:
+        - User
+      parameters:
+        - $ref: '#/components/parameters/IdentityID'
+      responses:
+        '200':
+          description: Successfully retrieved a list of orders for a user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /orders:
+    post:
+      summary: Place an order
+      tags:
+        - User
+      operationId: placeOrderHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Order successfully placed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /orders/{id}:
+    get:
+      summary: Get details of a specific order
+      tags:
+        - User
+      operationId: getOrderDetailHandler
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved the order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /orders/{id}/payment:
+    post:
+      summary: Make a payment for an order
+      operationId: orderPaymentHandler
+      security:
+        - SessionCookie: []
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PathID'
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentInput'
+      responses:
+        '200':
+          description: Payment processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  securitySchemes:
+    SessionToken:
+      type: apiKey
+      in: header
+      name: X-Session-Token
+      description: |
+        Pass the session token here. Typically retrieved after registration/login.
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: ory_kratos_session
+      description: Session cookie set by Ory Kratos for logged-in users (required for browser app).
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token (JWT) returned by Ory Kratos during login (required for non-browser).
+  parameters:
+    NameQuery:
+      in: query
+      name: name
+      schema:
+        type: string
+        description: The filter for the resource name
+        example: cushion
+      required: false
+    PageQuery:
+      in: query
+      name: page
+      schema:
+        type: integer
+        description: The page number
+        example: 1
+        minimum: 1
+      required: false
+    PageSizeQuery:
+      in: query
+      name: page_size
+      schema:
+        type: integer
+        description: The page_size
+        example: 10
+        minimum: 10
+      required: false
+    CategoryQuery:
+      in: query
+      name: category
+      schema:
+        type: string
+        description: The filter for category
+      required: false
+    PathID:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier for the resource
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+    IdentityID:
+      name: identity_id
+      in: path
+      required: true
+      description: Ory Kratos user identity ID of the customer
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    PaginationMetadata:
+      type: object
+      required:
+        - current_page
+        - total_items
+        - page_size
+        - total_items
+      properties:
+        current_page:
+          type: integer
+          minimum: 1
+          description: The current page number.
+          example: 1
+        total_pages:
+          type: integer
+          description: The total number of pages.
+          example: 10
+          minimum: 1
+        page_size:
+          type: integer
+          description: The number of items per page.
+          example: 20
+          minimum: 1
+        total_items:
+          type: integer
+          description: The total number of items across all pages.
+          example: 195
+          minimum: 0
+    FurnitureListing:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - image_url
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          description: The ID of the furniture
+          example: 1
+        name:
+          type: string
+          description: The name of the furniture
+          example: Dining Table
+        price:
+          type: number
+          description: The price of the furniture
+          format: float
+          example: 153.45
+        image_url:
+          type: string
+          format: uri
+          description: The main image of the furniture
+          example: https://example.com/images/chair_main.jpg
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          description: Details about the error.
+          properties:
+            message:
+              type: string
+              description: Human-readable explanation of the error
+      required:
+        - error
+        - message
+    CreateFurniture:
+      type: object
+      required:
+        - name
+        - description
+        - price
+        - stock
+        - category_id
+        - image_url
+        - additional_image_urls
+      properties:
+        name:
+          type: string
+          description: The name of the furniture
+          example: Modern Sofa
+        description:
+          type: string
+          description: The description of the furniture
+          example: Elegant 3-seater
+        price:
+          type: number
+          format: float
+          description: The price of the furniture
+          example: 299.99
+        stock:
+          type: integer
+          minimum: 1
+          description: The amount in stock
+          example: 20
+        category_id:
+          type: integer
+          minimum: 1
+          description: The category of the furniture
+          example: 1
+        image_url:
+          type: string
+          format: uri
+          description: The image url of the furniture
+          example: https://s3.amazonaws.com/fumode/sofa1.jpg
+        additional_image_urls:
+          description: Additional image urls for the furniture
+          type: array
+          items:
+            type: string
+            example: https://s3.amazonaws.com/fumode/sofa1.jpg
+    ErrorDetail:
+      type: object
+      description: Additional details of the error.
+      required:
+        - field
+        - message
+      properties:
+        field:
+          type: string
+          description: The name of the field that caused the validation error.
+          example: email
+        message:
+          type: string
+          description: Description of what went wrong with the specific field
+          example: Email is required
+    ErrorWithDetails:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            errors:
+              type: array
+              description: A list of field-specific validation errors
+              items:
+                $ref: '#/components/schemas/ErrorDetail'
+    Success:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human-readable success message
+    UpdateFurniture:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          description: The ID of the furniture
+          example: 1
+        name:
+          type: string
+          description: The name of the furniture
+          example: Modern Sofa
+        description:
+          type: string
+          description: The description of the furniture
+          example: Elegant 3-seater
+        price:
+          type: number
+          format: float
+          description: The price of the furniture
+          example: 123.99
+        stock:
+          type: integer
+          description: The number of stock available
+          minimum: 1
+          example: 12
+        image_url:
+          type: string
+          format: uri
+          description: The url for the main image of the furniture
+          example: https://example.com/images/chair_main.jpg
+        additional_image_urls:
+          type: array
+          description: Additional image urls for the furniture
+          items:
+            type: string
+          example:
+            - https://example.com/images/chair_side.jpg
+            - https://example.com/images/chair_back.jpg
+            - https://example.com/images/chair_detail.jpg
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              minimum: 1
+              description: The category id
+              example: 1
+            name:
+              type: string
+              description: The name of the category
+              example: Sofas
+    ReviewInput:
+      type: object
+      required:
+        - rating
+        - comment
+        - furniture_id
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Rating given by the user (1 to 5 stars)
+          example: 4
+        furniture_id:
+          type: integer
+          description: ID of the furniture item reviewed
+          example: 7
+          minimum: 1
+        comment:
+          type: string
+          description: Written feedback from the user
+          example: The build quality is excellent and very comfortable.
+        identity_id:
+          type: string
+          description: Ory Kratos identity ID of the reviewer
+          example: kratos-user-001
+    ReviewDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the review
+          example: 10
+          minimum: 1
+        furniture_id:
+          type: integer
+          description: ID of the furniture item reviewed
+          example: 7
+          minimum: 1
+        identity_id:
+          type: string
+          format: uuid
+          description: Ory Kratos identity ID of the user who submitted the review
+          example: kratos-user-001
+        rating:
+          type: integer
+          description: Rating score
+          example: 5
+        comment:
+          type: string
+          description: User's comment about the furniture
+          example: Stylish and durable!
+        created_at:
+          type: string
+          format: date-time
+          description: When the review was submitted
+          example: '2025-05-13T10:00:00Z'
+    CartDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the cart.
+          example: 1
+        furniture:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/FurnitureListing'
+        quantity:
+          type: integer
+          description: The quantity of the furniture in the cart.
+          example: 1
+    CartInput:
+      type: object
+      required:
+        - furniture_id
+        - quantity
+        - price
+      properties:
+        furniture_id:
+          type: integer
+          minimum: 1
+          description: The unique identifier for the furniture
+          example: 12
+        quantity:
+          type: integer
+          minimum: 1
+          description: Number of units for the furniture item
+        price:
+          type: number
+          format: float
+          description: Price per unit of the furniture item
+    OrderList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Unique ID of the order
+                example: 1
+              status:
+                type: string
+                description: Current status of the order
+                example: pending
+              total_amount:
+                type: number
+                format: float
+                description: Total amount charged for the order
+                example: 499.98
+              payment_status:
+                type: string
+                description: Status of the payment (e.g., paid, pending, failed)
+                example: paid
+              shipping_address_id:
+                type: integer
+                description: ID of the address where the order is to be delivered
+                example: 1
+              created_at:
+                type: string
+                format: date-time
+                description: Timestamp when the order was placed
+                example: '2025-05-10T14:00:00Z'
+    OrderInput:
+      type: object
+      required:
+        - shipping_address_id
+        - items
+        - identity_id
+      properties:
+        shipping_address_id:
+          type: integer
+          description: ID of the shipping address for the order
+          example: 1
+        identity_id:
+          type: string
+          description: Ory Kratos user identity ID of the customer
+          format: uuid
+          example: kratos-user-123
+        items:
+          type: array
+          description: List of furniture items in the order.
+          items:
+            $ref: '#/components/schemas/CartInput'
+    OrderDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique ID of the order
+          example: 1
+        identity_id:
+          type: string
+          description: Ory Kratos user identity ID of the customer
+          format: uuid
+          example: kratos-user-123
+        shipping_address_id:
+          type: integer
+          description: ID of the address where the order is to be delivered
+          example: 1
+        status:
+          type: string
+          description: Current status of the order
+          example: pending
+        total_amount:
+          type: number
+          format: float
+          description: Total amount charged for the order
+          example: 499.98
+        payment_status:
+          type: string
+          description: Status of the payment (e.g., paid, pending, failed)
+          example: paid
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the order was placed
+          example: '2025-05-10T14:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of the last update to the order
+          example: '2025-05-10T15:00:00Z'
+        items:
+          type: array
+          description: List of items in the order
+          items:
+            $ref: '#/components/schemas/CartInput'
+    PaymentInput:
+      type: object
+      required:
+        - payment_method
+        - amount
+      properties:
+        payment_method:
+          type: string
+          description: Payment method used (e.g., card, bank_transfer, wallet)
+          example: card
+        amount:
+          type: number
+          format: float
+          description: Amount being paid
+          example: 499.99
+        reference:
+          type: string
+          description: External payment provider transaction reference
+          example: txn_abcdef123456
+    PaymentDetail:
+      type: object
+      required:
+        - id
+        - order_id
+        - payment_method
+        - amount
+        - reference
+        - status
+        - paid_at
+      properties:
+        id:
+          type: number
+          description: Unique payment record ID
+          example: 1
+          minimum: 10
+        order_id:
+          type: integer
+          description: ID of the order the payment is linked to
+          example: 12
+          minimum: 1
+        payment_method:
+          type: string
+          description: Method used to make the payment
+          example: card
+        amount:
+          type: number
+          format: float
+          description: Total amount paid
+          example: 499.99
+        reference:
+          type: string
+          description: External transaction reference
+          example: txn_abcdef123456
+        status:
+          type: string
+          description: Status of the payment (e.g., success, failed)
+          example: success
+        paid_at:
+          type: string
+          format: date-time
+          description: Timestamp when payment was recorded
+          example: '2025-05-13T12:45:00Z'
+  responses:
+    ListFurnitureSuccess:
+      description: Successfully retrieved a list of furniture
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              metadata:
+                $ref: '#/components/schemas/PaginationMetadata'
+              items:
+                type: array
+                description: A list of furniture
+                items:
+                  $ref: '#/components/schemas/FurnitureListing'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    FurnitureCreated:
+      description: Returned when the furniture is created successfully.
+      headers:
+        Location:
+          schema:
+            type: string
+          description: The location to retrieve the created furniture.
+          example: /furniture/1
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Success message.
+                example: Furniture created successfully
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Unprocessable Entity
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWithDetails'
+    StatusOK:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Success'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
