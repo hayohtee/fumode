@@ -33,12 +33,26 @@ services:
     restart: unless-stopped
     environment:
       - DSN=${KRATOS_DB_DSN}
-#      - COURIER_SMTP_CONNECTION_URI=${KRATOS_SMTP}
+      - COURIER_SMTP_CONNECTION_URI=${KRATOS_SMTP}
     networks:
       - fumode-net
     ports:
       - "4433:4433"
       - "4434:4434"
+
+  kratos-selfservice-ui:
+    image: oryd/kratos-selfservice-ui-node:v1.3.1
+    ports:
+      - "4455:4455"
+    networks:
+      - fumode-net
+    environment:
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - PORT=4455
+      - CSRF_COOKIE_SECRET=${CSRF_COOKIE_SECRET}
+      - CSRF_COOKIE_NAME=${CSRF_COOKIE_NAME}
 
 volumes:
   kratos_db_data:
