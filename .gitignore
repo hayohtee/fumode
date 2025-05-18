@@ -32,3 +32,6 @@ kratos/
 
 # node modules
 node_modules/
+
+# keto folder
+keto/
