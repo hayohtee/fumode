@@ -29,3 +29,6 @@ go.work.sum
 
 # kratos folder
 kratos/
+
+# node modules
+node_modules/
