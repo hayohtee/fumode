@@ -13,7 +13,7 @@ bundle-openapi:
 
 .PHONY: migrate-create
 migrate-create:
-	@if [-z "$(name)"]; then \
+	@if [ -z "$(name)" ]; then \
 		echo "Usage: make migrate-create name=<filename>" \
 		exit 1; \
 	fi
