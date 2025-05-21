@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS carts
+CREATE TABLE IF NOT EXISTS cart
 (
     id          bigserial PRIMARY KEY,
     identity_id uuid                        NOT NULL,
