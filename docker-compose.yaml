@@ -121,8 +121,24 @@ services:
     networks:
       - fumode-net
 
+  fumode-db:
+    image: postgres:17.4
+    container_name: fumode-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${FUMODE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${FUMODE_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${FUMODE_POSTGRES_DB}
+    volumes:
+      - fumode_db_data:/var/lib/postgresql/data
+    networks:
+      - fumode-net
+    ports:
+      - "5432:5432"
+
 volumes:
   kratos_db_data:
   keto-db-data:
+  fumode_db_data:
 networks:
   fumode-net:
