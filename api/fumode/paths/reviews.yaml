@@ -6,8 +6,6 @@ post:
   security:
     - SessionCookie: [ ]
     - BearerAuth: [ ]
-  parameters:
-    - $ref: "../parameters/index.yaml/#/PathID"
   requestBody:
     required: true
     content:
