@@ -1,6 +1,7 @@
 services:
   kratos-db:
     image: postgres:17.4
+    container_name: kratos-db
     restart: always
     environment:
       POSTGRES_USER: ${KRATOS_POSTGRES_USER}
@@ -11,11 +12,12 @@ services:
     networks:
       - fumode-net
     ports:
-      - "5432:5432"
+      - "5432"
 
   kratos-migrate:
     image: kratos
     build: ./kratos
+    container_name: kratos-migrate
     restart: on-failure
     depends_on:
       - kratos-db
@@ -28,6 +30,7 @@ services:
   kratos:
     image: kratos
     build: ./kratos
+    container_name: kratos
     depends_on:
       - kratos-migrate
     restart: unless-stopped
@@ -37,13 +40,14 @@ services:
     networks:
       - fumode-net
     ports:
-      - "4433:4433"
-      - "4434:4434"
+      - "4433"
+      - "4434"
 
   kratos-selfservice-ui:
     image: oryd/kratos-selfservice-ui-node:v1.3.1
+    container_name: kratos-selfservice-ui
     ports:
-      - "4455:4455"
+      - "4455"
     networks:
       - fumode-net
     environment:
@@ -54,8 +58,71 @@ services:
       - CSRF_COOKIE_SECRET=${CSRF_COOKIE_SECRET}
       - CSRF_COOKIE_NAME=${CSRF_COOKIE_NAME}
 
+  oathkeeper:
+    image: oryd/oathkeeper:v0.40.9-distroless
+    container_name: oathkeeper
+    command: ["serve", "--config", "/etc/config/config.yaml"]
+    depends_on:
+      - kratos
+    ports:
+      - "4455:4455"
+      - "4456:4456"
+    volumes:
+      - ./oathkeeper/config.yaml:/etc/config/config.yaml
+      - ./oathkeeper/access_rules.yaml:/etc/config/access_rules.yaml
+    networks:
+      - fumode-net
+
+  keto-db:
+    image: postgres:17.4
+    container_name: keto-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${KETO_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KETO_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${KETO_POSTGRES_DB}
+    ports:
+      - "5432"
+    volumes:
+      - keto-db-data:/var/lib/postgresql/data
+    networks:
+      - fumode-net
+
+  keto-migrate:
+    image: oryd/keto:v0.14.0-distroless
+    container_name: keto-migrate
+    volumes:
+      - ./keto/config.yaml:/etc/config/config.yaml
+      - ./keto/namespaces.ts:/etc/config/namespaces.ts
+    command: ["migrate", "up", "--config", "/etc/config/config.yaml", "--yes"]
+    environment:
+      - DSN=${KETO_DB_DSN}
+    depends_on:
+      - keto-db
+    restart: no
+    networks:
+      - fumode-net
+
+  keto:
+    image: oryd/keto:v0.14.0-distroless
+    container_name: keto
+    command: ["serve", "--config", "/etc/config/config.yaml"]
+    volumes:
+      - ./keto/config.yaml:/etc/config/config.yaml
+      - ./keto/namespaces.ts:/etc/config/namespaces.ts
+    ports:
+      - "4466"
+      - "4467"
+    restart: unless-stopped
+    environment:
+      - DSN=${KETO_DB_DSN}
+    depends_on:
+      - keto-migrate
+    networks:
+      - fumode-net
+
 volumes:
   kratos_db_data:
-
+  keto-db-data:
 networks:
   fumode-net:
