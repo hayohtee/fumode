@@ -34,3 +34,18 @@ migrate-down:
 migrate-drop:
 	@echo "Dropping all tables"
 	@migrate -path ${MIGRATIONS_PATH} -database ${FUMODE_DB_DSN} drop
+
+.PHONY: compose-up
+compose-up:
+	@echo "Running docker compose up"
+	@docker compose up --build -d
+
+.PHONY: compose-stop
+compose-stop:
+	@echo "Stopping docker compose"
+	@docker compose stop
+
+.PHONY: compose-rm
+compose-rm:
+	@echo "Removing docker compose services"
+	@docker compose rm
