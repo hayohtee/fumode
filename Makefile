@@ -49,3 +49,8 @@ compose-stop:
 compose-rm:
 	@echo "Removing docker compose services"
 	@docker compose rm
+
+.PHONY: sqlc-generate
+sqlc-generate:
+	@echo "Generating sql queries"
+	@sqlc generate
