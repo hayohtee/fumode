@@ -5,7 +5,7 @@ MIGRATIONS_PATH = ./migrations
 .PHONY: generate-server
 generate-server:
 	@echo "generating server from OpenAPI specification"
-	@go tool oapi-codegen --config cfg-api.yaml ./api/fumode_bundled_openapi.yaml
+	@oapi-codegen --config oapi-codegen.yaml ./api/fumode_bundled_openapi.yaml
 
 .PHONY: bundle-openapi
 bundle-openapi:
@@ -49,3 +49,8 @@ compose-stop:
 compose-rm:
 	@echo "Removing docker compose services"
 	@docker compose rm
+
+.PHONY: sqlc-generate
+sqlc-generate:
+	@echo "Generating sql queries"
+	@sqlc generate

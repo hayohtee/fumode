@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS furniture
     description    text                        NOT NULL,
     price          decimal(10, 2)              NOT NULL,
     stock_quantity int                         NOT NULL,
-    category_id    bigint REFERENCES categories (id) ON UPDATE cascade,
+    category_id    bigint                      NOT NULL REFERENCES categories (id) ON UPDATE cascade,
     created_at     timestamp(0) with time zone NOT NULL DEFAULT now(),
     updated_at     timestamp(0) with time zone NOT NULL DEFAULT now(),
     version        int                         NOT NULL DEFAULT 1
