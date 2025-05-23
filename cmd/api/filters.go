@@ -1,4 +1,4 @@
-package data
+package main
 
 import (
 	"github.com/hayohtee/fumode/internal/validator"
